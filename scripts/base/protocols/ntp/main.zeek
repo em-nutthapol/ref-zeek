@@ -226,12 +226,12 @@ event ntp_message(c: connection, is_orig: bool, msg: NTP::Message) &priority=5
 
 event ntp_message(c: connection, is_orig: bool, msg: NTP::Message) &priority=-5
 	{
-	if ( c?$ntp )
+	if ( msg?$std_msg && c?$ntp )
 		Log::write(NTP::LOG, c$ntp);
 
-	if ( c?$ntp_control )
+	if ( msg?$control_msg && c?$ntp_control )
 		Log::write(NTP::CONTROL_LOG, c$ntp_control);
 
-	if ( c?$ntp_private )
+	if ( msg?$mode7_msg && c?$ntp_private )
 		Log::write(NTP::PRIVATE_LOG, c$ntp_private);
 	}
